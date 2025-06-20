@@ -2,8 +2,8 @@ builder:
   track: dev
 
 labels:
-  app-group: estafette-ci-extensions
-  team: estafette-team
+  app-group: ziplinee-ci-extensions
+  team: ziplinee-team
   language: golang
 
 version:
@@ -19,7 +19,7 @@ stages:
       GOOS: linux
     commands:
     - go test ./...
-    - go build -a -installsuffix cgo -ldflags "-X main.appgroup=${ESTAFETTE_LABEL_APP_GROUP} -X main.app=${ESTAFETTE_GIT_NAME} -X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}" -o ./publish/${ESTAFETTE_GIT_NAME} .
+    - go build -a -installsuffix cgo -ldflags "-X main.appgroup=${ZIPLINEE_LABEL_APP_GROUP} -X main.app=${ZIPLINEE_GIT_NAME} -X main.version=${ZIPLINEE_BUILD_VERSION} -X main.revision=${ZIPLINEE_GIT_REVISION} -X main.branch=${ZIPLINEE_GIT_BRANCH} -X main.buildDate=${ZIPLINEE_BUILD_DATETIME}" -o ./publish/${ZIPLINEE_GIT_NAME} .
 
   bake:
     image: extensions/docker:dev
@@ -27,15 +27,15 @@ stages:
     inline: |
       FROM scratch
 
-      LABEL maintainer="estafette.io" \
-            description="The ${ESTAFETTE_GIT_NAME} component is an Estafette extension to update build status in Bitbucket for builds handled by Estafette CI"
+      LABEL maintainer="ziplinee.io" \
+            description="The ${ZIPLINEE_GIT_NAME} component is an Ziplinee extension to update build status in Bitbucket for builds handled by Ziplinee CI"
 
       COPY ca-certificates.crt /etc/ssl/certs/
-      COPY ${ESTAFETTE_GIT_NAME} /
+      COPY ${ZIPLINEE_GIT_NAME} /
 
-      ENV ESTAFETTE_LOG_FORMAT="console"
+      ENV ZIPLINEE_LOG_FORMAT="console"
 
-      ENTRYPOINT ["/${ESTAFETTE_GIT_NAME}"]
+      ENTRYPOINT ["/${ZIPLINEE_GIT_NAME}"]
     container: bitbucket-status
     repositories:
     - extensions
@@ -68,7 +68,7 @@ stages:
 
   slack-notify:
     image: extensions/slack-build-status:stable
-    workspace: estafette
+    workspace: ziplinee
     channels:
     - '#build-status'
     when:
@@ -104,7 +104,7 @@ releases:
 
       slack-notify:
         image: extensions/slack-build-status:stable
-        workspace: estafette
+        workspace: ziplinee
         channels:
         - '#build-status'
         when:
@@ -125,7 +125,7 @@ releases:
 
       slack-notify:
         image: extensions/slack-build-status:stable
-        workspace: estafette
+        workspace: ziplinee
         channels:
         - '#build-status'
         when:
@@ -139,14 +139,14 @@ releases:
     clone: true
     stages:
       build:
-        image: estafette/golang:1.15.7-nanoserver-1809
+        image: ziplinee/golang:1.15.7-nanoserver-1809
         shell: cmd
         env:
           CGO_ENABLED: 0
           GOOS: windows
           GOARCH: amd64
         commands:
-        - go build -v -ldflags "-X main.app=%ESTAFETTE_GIT_NAME% -X main.version=%ESTAFETTE_BUILD_VERSION% -X main.revision=%ESTAFETTE_GIT_REVISION% -X main.branch=%ESTAFETTE_GIT_BRANCH% -X main.buildDate=%ESTAFETTE_BUILD_DATETIME%" -o ./publish/%ESTAFETTE_GIT_NAME%.exe
+        - go build -v -ldflags "-X main.app=%ZIPLINEE_GIT_NAME% -X main.version=%ZIPLINEE_BUILD_VERSION% -X main.revision=%ZIPLINEE_GIT_REVISION% -X main.branch=%ZIPLINEE_GIT_BRANCH% -X main.buildDate=%ZIPLINEE_BUILD_DATETIME%" -o ./publish/%ZIPLINEE_GIT_NAME%.exe
 
       bake:
         image: extensions/docker:nanoserver-1809-dev
@@ -176,14 +176,14 @@ releases:
     clone: true
     stages:
       build:
-        image: estafette/golang:1.15.7-nanoserver-1809
+        image: ziplinee/golang:1.15.7-nanoserver-1809
         shell: cmd
         env:
           CGO_ENABLED: 0
           GOOS: windows
           GOARCH: amd64
         commands:
-        - go build -v -ldflags "-X main.app=%ESTAFETTE_GIT_NAME% -X main.version=%ESTAFETTE_BUILD_VERSION% -X main.revision=%ESTAFETTE_GIT_REVISION% -X main.branch=%ESTAFETTE_GIT_BRANCH% -X main.buildDate=%ESTAFETTE_BUILD_DATETIME%" -o ./publish/%ESTAFETTE_GIT_NAME%.exe
+        - go build -v -ldflags "-X main.app=%ZIPLINEE_GIT_NAME% -X main.version=%ZIPLINEE_BUILD_VERSION% -X main.revision=%ZIPLINEE_GIT_REVISION% -X main.branch=%ZIPLINEE_GIT_BRANCH% -X main.buildDate=%ZIPLINEE_BUILD_DATETIME%" -o ./publish/%ZIPLINEE_GIT_NAME%.exe
 
       bake:
         image: extensions/docker:nanoserver-1809-dev
@@ -213,14 +213,14 @@ releases:
     clone: true
     stages:
       build:
-        image: estafette/golang:1.15.7-nanoserver-1809
+        image: ziplinee/golang:1.15.7-nanoserver-1809
         shell: cmd
         env:
           CGO_ENABLED: 0
           GOOS: windows
           GOARCH: amd64
         commands:
-        - go build -v -ldflags "-X main.app=%ESTAFETTE_GIT_NAME% -X main.version=%ESTAFETTE_BUILD_VERSION% -X main.revision=%ESTAFETTE_GIT_REVISION% -X main.branch=%ESTAFETTE_GIT_BRANCH% -X main.buildDate=%ESTAFETTE_BUILD_DATETIME%" -o ./publish/%ESTAFETTE_GIT_NAME%.exe
+        - go build -v -ldflags "-X main.app=%ZIPLINEE_GIT_NAME% -X main.version=%ZIPLINEE_BUILD_VERSION% -X main.revision=%ZIPLINEE_GIT_REVISION% -X main.branch=%ZIPLINEE_GIT_BRANCH% -X main.buildDate=%ZIPLINEE_BUILD_DATETIME%" -o ./publish/%ZIPLINEE_GIT_NAME%.exe
 
       bake:
         image: extensions/docker:nanoserver-1809-dev
