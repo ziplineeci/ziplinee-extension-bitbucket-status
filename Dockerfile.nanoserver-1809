@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/windows/nanoserver:1809
+
+COPY ./ziplinee-extension-bitbucket-status.exe c:/ziplinee-extension-bitbucket-status.exe
+
+ENV ZIPLINEE_LOG_FORMAT="console"
+
+USER ContainerAdministrator
+
+ENTRYPOINT ["C:/ziplinee-extension-bitbucket-status.exe"]
