@@ -1,5 +1,5 @@
 # Stage 1: Install certs and prepare binary
-FROM alpine:3.18 AS base
+FROM alpine:3.24.3 AS base
 RUN apk add --no-cache ca-certificates
 COPY publish/ziplinee-extension-bitbucket-status /ziplinee-extension-bitbucket-status
 
